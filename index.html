@@ -57,68 +57,42 @@
 		</svg>
 
 		<script type="text/javascript">
+			var layer;
+			var rotaA = 0;
+			var rotaB = 0;
+			var rotaG = 0;
+			var rotaA0 = 0;
+			var rotaB0 = 0;
+			var rotaG0 = 0;
+			var nowA = 0;
+			var nowB = 0;
+			var nowG = 0;
+			var makeInitial = false;
+			var isInit = false;
+			var dist = [];
+
 			window.onload = function() {
 				setLayer("layer");
 			}
 
 			function setLayer(layerName) {
-				var layer = document.getElementsByClassName(layerName);
-				var rotaA = 0;
-				var rotaB = 0;
-				var rotaG = 0;
-				var rotaA0 = 0;
-				var rotaB0 = 0;
-				var rotaG0 = 0;
-				var nowA = 0;
-				var nowB = 0;
-				var nowG = 0;
-				var makeInitial = false;
-				var dist = [];
+
+				layer = document.getElementsByClassName(layerName);
 
 				for (var i = 0; i < layer.length; i++) {
 					dist[i] = Number(layer[i].getAttribute("distance"));
 				}
-				window.addEventListener("devicemotion", orientationHandler, true); 
 
 				getGrant();
 
-				function orientationHandler(event) {
+				isInit = true;
 
-					if (makeInitial === false) {
-						rotaA0 = event.alpha > 180 ? event.alpha - 180 : event.alpha;
-						rotaB0 = event.beta;
-						rotaG0 = event.gamma;
-						makeInitial = true;
-					}
-
-					rotaA = (event.alpha > 180 ? event.alpha - 180 : event.alpha) - rotaA0;
-					rotaB = event.beta - rotaB0 + 90;
-					rotaG = event.gamma - rotaG0;
-
-					nowA = rotaA / 360;
-					nowB = rotaB < -90 && rotaB > -180 ? (rotaB + 270) / 360 : (rotaB - 90) / 360;
-					nowG = rotaG / 360;
-
-					for (var i = 0; i < layer.length; i++) {
-						var moveX = (nowG * dist[i]);
-						var moveY = (nowB * dist[i]);
-						layer[i].setAttribute("style", "transform:translate(" + moveX + "vw," + moveY + "vh);")
-					}
-				}
+				alert("init success");
 			}
-
-			//判断是否ios
-		    function is_ios() {
-		        if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
-		            return true
-		        } else {
-		            return false;
-		        }
-		    }
 
 		    //ios授权
 		    function getGrant() {
-		        if(is_ios()) {
+		        if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
 		            window.DeviceOrientationEvent.requestPermission()
 		            .then(state => {
 		                switch (state) {
@@ -132,6 +106,40 @@
 		            });
 		        }
 		    }
+
+		    // 注册事件处理
+			if (window.DeviceOrientationEvent) {
+		  		window.addEventListener("deviceorientation", orientationHandler, false);
+		  	}
+
+		  	// 处理重力感应事件
+			function orientationHandler(event) {
+
+				if (isInit === false) {
+					return ;
+				}
+
+				if (makeInitial === false) {
+					rotaA0 = event.alpha > 180 ? event.alpha - 180 : event.alpha;
+					rotaB0 = event.beta;
+					rotaG0 = event.gamma;
+					makeInitial = true;
+				}
+
+				rotaA = (event.alpha > 180 ? event.alpha - 180 : event.alpha) - rotaA0;
+				rotaB = event.beta - rotaB0 + 90;
+				rotaG = event.gamma - rotaG0;
+
+				nowA = rotaA / 360;
+				nowB = rotaB < -90 && rotaB > -180 ? (rotaB + 270) / 360 : (rotaB - 90) / 360;
+				nowG = rotaG / 360;
+
+				for (var i = 0; i < layer.length; i++) {
+					var moveX = (nowG * dist[i]);
+					var moveY = (nowB * dist[i]);
+					layer[i].setAttribute("style", "transform:translate(" + moveX + "vw," + moveY + "vh);")
+				}
+			}
 
 		</script>
 	</body>
