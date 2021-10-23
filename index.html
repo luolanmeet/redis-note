@@ -83,6 +83,8 @@
 				function orientationHandler(event) {
 
 					var rotationRate = event.rotationRate;
+					alert(rotationRate);
+					alert(rotationRate.alpha);
 
 					if (makeInitial === false) {
 						rotaA0 = rotationRate.alpha > 180 ? rotationRate.alpha - 180 : rotationRate.alpha;
