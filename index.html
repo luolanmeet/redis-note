@@ -1,155 +1,53 @@
-
-<!-- saved from url=(0194)file:///Users/mac/Library/Mobile%20Documents/com~apple~CloudDocs/%C2%A0%E6%80%81%E7%88%B7%E6%8F%90%E9%AB%98%E8%AF%BE/%E5%A4%A7%E4%BD%9C%E4%B8%9A%20%E8%A7%86%E5%B7%AE%E6%95%88%E6%9E%9C/index.html -->
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <head>
+ 	   <title>DeviceOrientationEvent</title>
+	   <meta charset="UTF-8" />
 	</head>
-	
 	<body>
-
-		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1920 1080" style="enable-background:new 0 0 1920 1080;" xml:space="preserve">
-			<style type="text/css">
-				.st0{fill:#000000;}
-			</style>
-			<g id="图层_1" class="layer" distance="20">
-				<image style="overflow:visible;" width="1920" height="1080" xlink:href="img/8.png">
-				</image>
-			</g>
-			<g id="图层_2" class="layer" distance="60">
-				<image style="overflow:visible;" width="1654" height="592" xlink:href="img/8.png" transform="matrix(1 0 0 1 0 357)">
-				</image>
-			</g>
-			<g id="图层_3" class="layer" distance="100">
-				<image style="overflow:visible;" width="300" height="579" xlink:href="img/8.png" transform="matrix(1 0 0 1 568 210)">
-				</image>
-			</g>
-			<g id="图层_4" class="layer" distance="120">
-				<image style="overflow:visible;" width="1920" height="598" xlink:href="img/8.png" transform="matrix(1 0 0 1 0 481)">
-				</image>
-			</g>
-			<g id="图层_5" class="layer" distance="160">
-				<image style="overflow:visible;" width="1800" height="582" xlink:href="img/8.png" transform="matrix(1 0 0 1 1 499)">
-				</image>
-			</g>
-			<g id="图层_6" class="layer" distance="180">
-				<image style="overflow:visible;" width="1920" height="530" xlink:href="img/8.png" transform="matrix(1 0 0 1 0 551)">
-				</image>
-			</g>
-			<g id="图层_7" class="layer" distance="220">
-				<image style="overflow:visible;" width="1920" height="1080" xlink:href="img/8.png">
-				</image>
-			</g>
-			<g id="图层_8" class="layer" distance="240">
-				<image style="overflow:visible;" width="1475" height="875" xlink:href="img/8.png" transform="matrix(1 0 0 1 290 50)">
-				</image>
-			</g>
-			<g id="图层_9" class="layer" distance="270">
-				<image style="overflow:visible;" width="1920" height="742" xlink:href="img/8.png" transform="matrix(1 0 0 1 0 337)">
-				</image>
-			</g>
-			<g id="图层_10" class="layer" distance="300">
-				<image style="overflow:visible;" width="1919" height="810" xlink:href="img/8.png" transform="matrix(1 0 0 1 1 270)">
-				</image>
-			</g>
-			<g id="图层_11" class="layer" distance="0">
-				<path class="st0" d="M0.5,0v1080h1920V0H0.5z M1840.5,1000H80.5V80h1760V1000z"></path>
-			</g>
-		</svg>
-
+	    <p><button onclick="getGrant()">授权陀螺仪</button></p>
+		<p>左右：<span id="alpha">0</span></p>
+		<p>前后：<span id="beta">0</span></p>
+		<p>扭转：<span id="gamma">0</span></p>
+		<p>指北针指向：<span id="heading">0</span>度</p>
+		<p>指北针精度：<span id="accuracy">0</span>度</p>
 		<script type="text/javascript">
-			var layer;
-			var rotaA = 0;
-			var rotaB = 0;
-			var rotaG = 0;
-			var rotaA0 = 0;
-			var rotaB0 = 0;
-			var rotaG0 = 0;
-			var nowA = 0;
-			var nowB = 0;
-			var nowG = 0;
-			var makeInitial = false;
-			var isInit = false;
-			var dist = [];
+		function orientationHandler(event) {
+			document.getElementById("alpha").innerHTML = event.alpha;
+			document.getElementById("beta").innerHTML = event.beta;
+			document.getElementById("gamma").innerHTML = event.gamma;
+			document.getElementById("heading").innerHTML = event.webkitCompassHeading;
+			document.getElementById("accuracy").innerHTML = event.webkitCompassAccuracy;
+		}
+		
+		if (window.DeviceOrientationEvent) {
+		  window.addEventListener("deviceorientation", orientationHandler, false);
+		} else {
+		  document.body.innerHTML = "What user agent u r using???";
+		}
 
-			window.onload = function() {
-				setLayer("layer");
-			}
+		//ios授权
+	    function getGrant() {
+	    	alert("getGrant")
+	        if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+	            window.DeviceOrientationEvent.requestPermission()
+	            .then(state => {
+	            	alert(state)
+	                switch (state) {
+	                	case "granted":
+	                        alert("陀螺仪授权成功");
+	                    break;
+	                    case "denied":
+	                        alert("你拒绝了使用陀螺仪");
+	                    break;
+	                    case "prompt":
+	                        alert("其他行为");
+	                    break;
+	                }
+	            });
+	        }
+	    }
 
-			function setLayer(layerName) {
 
-				layer = document.getElementsByClassName(layerName);
-
-				for (var i = 0; i < layer.length; i++) {
-					dist[i] = Number(layer[i].getAttribute("distance"));
-				}
-
-				getGrant();
-
-				isInit = true;
-				alert("start");
-			}
-
-		    //ios授权
-		    function getGrant() {
-		    	alert("getGrant");
-		        if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
-
-					alert("isIOS");
-
-		            window.DeviceOrientationEvent.requestPermission()
-		            .then(state => {
-		            	alert(state)
-		                switch (state) {
-		                	case "granted":
-		                        alert("陀螺仪授权成功");
-		                    break;
-		                    case "denied":
-		                        alert("你拒绝了使用陀螺仪");
-		                    break;
-		                    case "prompt":
-		                        alert("其他行为");
-		                    break;
-		                }
-		            });
-		        } else {
-					alert("noIOS");
-		        }
-		    }
-
-		    // 注册事件处理
-			if (window.DeviceOrientationEvent) {
-		  		window.addEventListener("deviceorientation", orientationHandler, false);
-		  	}
-
-		  	// 处理重力感应事件
-			function orientationHandler(event) {
-
-				if (isInit === false) {
-					return ;
-				}
-
-				if (makeInitial === false) {
-					rotaA0 = event.alpha > 180 ? event.alpha - 180 : event.alpha;
-					rotaB0 = event.beta;
-					rotaG0 = event.gamma;
-					makeInitial = true;
-				}
-
-				rotaA = (event.alpha > 180 ? event.alpha - 180 : event.alpha) - rotaA0;
-				rotaB = event.beta - rotaB0 + 90;
-				rotaG = event.gamma - rotaG0;
-
-				nowA = rotaA / 360;
-				nowB = rotaB < -90 && rotaB > -180 ? (rotaB + 270) / 360 : (rotaB - 90) / 360;
-				nowG = rotaG / 360;
-
-				for (var i = 0; i < layer.length; i++) {
-					var moveX = (nowG * dist[i]);
-					var moveY = (nowB * dist[i]);
-					layer[i].setAttribute("style", "transform:translate(" + moveX + "vw," + moveY + "vh);")
-				}
-			}
-
-		</script>
+   	 	</script>
 	</body>
 </html>
