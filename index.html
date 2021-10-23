@@ -91,8 +91,11 @@
 
 		    //ios授权
 		    function getGrant() {
-		    	alert("getGrant")
+		    	alert("getGrant");
 		        if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+
+					alert("isIOS");
+
 		            window.DeviceOrientationEvent.requestPermission()
 		            .then(state => {
 		            	alert(state)
@@ -108,6 +111,8 @@
 		                    break;
 		                }
 		            });
+		        } else {
+					alert("noIOS");
 		        }
 		    }
 
