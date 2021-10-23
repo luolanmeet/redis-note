@@ -6,17 +6,16 @@
 	</head>
 	
 	<body>
-
 		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1920 1080" style="enable-background:new 0 0 1920 1080;" xml:space="preserve">
 			<style type="text/css">
 				.st0{fill:#000000;}
 			</style>
 			<g id="图层_1" class="layer" distance="20">
-				<image style="overflow:visible;" width="1920" height="1080" xlink:href="img/8.png">
+				<image style="overflow:visible;" width="1920" height="1080" xlink:href="img/10.png">
 				</image>
 			</g>
 			<g id="图层_2" class="layer" distance="60">
-				<image style="overflow:visible;" width="1654" height="592" xlink:href="img/8.png" transform="matrix(1 0 0 1 0 357)">
+				<image style="overflow:visible;" width="1654" height="592" xlink:href="img/9.png" transform="matrix(1 0 0 1 0 357)">
 				</image>
 			</g>
 			<g id="图层_3" class="layer" distance="100">
@@ -24,31 +23,31 @@
 				</image>
 			</g>
 			<g id="图层_4" class="layer" distance="120">
-				<image style="overflow:visible;" width="1920" height="598" xlink:href="img/8.png" transform="matrix(1 0 0 1 0 481)">
+				<image style="overflow:visible;" width="1920" height="598" xlink:href="img/7.png" transform="matrix(1 0 0 1 0 481)">
 				</image>
 			</g>
 			<g id="图层_5" class="layer" distance="160">
-				<image style="overflow:visible;" width="1800" height="582" xlink:href="img/8.png" transform="matrix(1 0 0 1 1 499)">
+				<image style="overflow:visible;" width="1800" height="582" xlink:href="img/6.png" transform="matrix(1 0 0 1 1 499)">
 				</image>
 			</g>
 			<g id="图层_6" class="layer" distance="180">
-				<image style="overflow:visible;" width="1920" height="530" xlink:href="img/8.png" transform="matrix(1 0 0 1 0 551)">
+				<image style="overflow:visible;" width="1920" height="530" xlink:href="img/5.png" transform="matrix(1 0 0 1 0 551)">
 				</image>
 			</g>
 			<g id="图层_7" class="layer" distance="220">
-				<image style="overflow:visible;" width="1920" height="1080" xlink:href="img/8.png">
+				<image style="overflow:visible;" width="1920" height="1080" xlink:href="img/4.png">
 				</image>
 			</g>
 			<g id="图层_8" class="layer" distance="240">
-				<image style="overflow:visible;" width="1475" height="875" xlink:href="img/8.png" transform="matrix(1 0 0 1 290 50)">
+				<image style="overflow:visible;" width="1475" height="875" xlink:href="img/3.png" transform="matrix(1 0 0 1 290 50)">
 				</image>
 			</g>
 			<g id="图层_9" class="layer" distance="270">
-				<image style="overflow:visible;" width="1920" height="742" xlink:href="img/8.png" transform="matrix(1 0 0 1 0 337)">
+				<image style="overflow:visible;" width="1920" height="742" xlink:href="img/2.png" transform="matrix(1 0 0 1 0 337)">
 				</image>
 			</g>
 			<g id="图层_10" class="layer" distance="300">
-				<image style="overflow:visible;" width="1919" height="810" xlink:href="img/8.png" transform="matrix(1 0 0 1 1 270)">
+				<image style="overflow:visible;" width="1919" height="810" xlink:href="img/1.png" transform="matrix(1 0 0 1 1 270)">
 				</image>
 			</g>
 			<g id="图层_11" class="layer" distance="0">
@@ -86,25 +85,18 @@
 				if (window.confirm("授权陀螺仪")) {
 					getGrant();
 					isInit = true;
-					alert("授权");
-				} else {
-				    alert("不授权");
 				}
 			}
 
 		    //ios授权
 		    function getGrant() {
-		    	alert("getGrant");
 		        if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
-
-					alert("isIOS");
-
 		            window.DeviceOrientationEvent.requestPermission()
 		            .then(state => {
 		            	alert(state)
 		                switch (state) {
 		                	case "granted":
-		                        alert("陀螺仪授权成功");
+		                        // alert("陀螺仪授权成功");
 		                    break;
 		                    case "denied":
 		                        alert("你拒绝了使用陀螺仪");
@@ -114,8 +106,6 @@
 		                    break;
 		                }
 		            });
-		        } else {
-					alert("noIOS");
 		        }
 		    }
 
