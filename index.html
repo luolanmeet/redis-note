@@ -93,7 +93,6 @@
 		        if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
 		            window.DeviceOrientationEvent.requestPermission()
 		            .then(state => {
-		            	alert(state)
 		                switch (state) {
 		                	case "granted":
 		                        // alert("陀螺仪授权成功");
