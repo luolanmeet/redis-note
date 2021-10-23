@@ -94,6 +94,9 @@
 		            window.DeviceOrientationEvent.requestPermission()
 		            .then(state => {
 		                switch (state) {
+		                	case "granted":
+		                        alert("陀螺仪授权成功");
+		                    break;
 		                    case "denied":
 		                        alert("你拒绝了使用陀螺仪");
 		                    break;
