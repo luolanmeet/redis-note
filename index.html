@@ -4,6 +4,7 @@
 	   <meta charset="UTF-8" />
 	</head>
 	<body>
+		<p><button onclick="getGrant()">授权陀螺仪</button></p>
 		<p>左右：<span id="alpha">0</span></p>
 		<p>前后：<span id="beta">0</span></p>
 		<p>扭转：<span id="gamma">0</span></p>
@@ -18,6 +19,25 @@
 			document.getElementById("accuracy").innerHTML = event.webkitCompassAccuracy;
 		}
 		
+	    //ios授权
+	    function getGrant() {
+            window.DeviceOrientationEvent.requestPermission()
+            .then(state => {
+                switch (state) {
+                    case "granted":
+                        start();
+                    break;
+                    case "denied":
+                        alert("你拒绝了使用陀螺仪");
+                    break;
+                    case "prompt":
+                        alert("其他行为");
+                    break;
+                }
+            });
+	    }
+
+
 		if (window.DeviceOrientationEvent) {
 		  window.addEventListener("deviceorientation", orientationHandler, false);
 		} else {
